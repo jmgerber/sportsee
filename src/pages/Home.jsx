@@ -3,6 +3,7 @@ import Header from '../components/Header'
 import VerticalNav from '../components/VerticalNav'
 import styled from 'styled-components'
 import BarChartComponent from '../components/BarChartComponent'
+import RadarChartComponent from '../components/RadarChartComponent'
 
 const MainContainer = styled.div`
   display: flex;
@@ -58,6 +59,7 @@ function Home() {
             </h1>
             <p>Félicitation ! Vous avec explosé vos objectifs hier</p>
             <BarChartComponent />
+            <RadarChartComponent />
           </main>
         )}
       </MainContainer>
