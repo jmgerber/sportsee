@@ -6,55 +6,18 @@ import {
   PolarRadiusAxis,
 } from 'recharts'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 const ChartContainer = styled.div`
   background-color: #282d30;
-  display: inline-flex;
   border-radius: 5px;
 `
-const data = {
-  userId: 12,
-  kind: {
-    1: 'cardio',
-    2: 'energy',
-    3: 'endurance',
-    4: 'strength',
-    5: 'speed',
-    6: 'intensity',
-  },
-  data: [
-    {
-      value: 80,
-      kind: 1,
-    },
-    {
-      value: 120,
-      kind: 2,
-    },
-    {
-      value: 140,
-      kind: 3,
-    },
-    {
-      value: 50,
-      kind: 4,
-    },
-    {
-      value: 200,
-      kind: 5,
-    },
-    {
-      value: 90,
-      kind: 6,
-    },
-  ],
-}
 
-const getKind = (kindData) => {
-  return data.kind[kindData.kind]
-}
+function PerformanceChart({ userPerformance }) {
+  const getKind = (kindData) => {
+    return userPerformance.kind[kindData.kind]
+  }
 
-function RadarChartComponent() {
   return (
     <ChartContainer>
       <RadarChart
@@ -63,7 +26,7 @@ function RadarChartComponent() {
         cx="50%"
         cy="50%"
         outerRadius={80}
-        data={data.data}
+        data={userPerformance.data}
       >
         <PolarGrid radialLines={false} strokeWidth={1} stroke="#fff" />
         <PolarAngleAxis
@@ -84,4 +47,12 @@ function RadarChartComponent() {
   )
 }
 
-export default RadarChartComponent
+PerformanceChart.propTypes = {
+  userPerformance: PropTypes.object.isRequired,
+}
+
+PerformanceChart.defaultProps = {
+  userPerformance: {},
+}
+
+export default PerformanceChart

@@ -7,44 +7,7 @@ import {
   Tooltip,
   Legend,
 } from 'recharts'
-
-const data = [
-  {
-    day: '2020-07-01',
-    kilogram: 80,
-    calories: 240,
-  },
-  {
-    day: '2020-07-02',
-    kilogram: 80,
-    calories: 220,
-  },
-  {
-    day: '2020-07-03',
-    kilogram: 81,
-    calories: 280,
-  },
-  {
-    day: '2020-07-04',
-    kilogram: 81,
-    calories: 290,
-  },
-  {
-    day: '2020-07-05',
-    kilogram: 80,
-    calories: 160,
-  },
-  {
-    day: '2020-07-06',
-    kilogram: 78,
-    calories: 162,
-  },
-  {
-    day: '2020-07-07',
-    kilogram: 76,
-    calories: 390,
-  },
-]
+import PropTypes from 'prop-types'
 
 const formatXAxis = (tickItem) => {
   const tickDate = new Date(tickItem)
@@ -65,12 +28,12 @@ const renderColorLegendText = (value) => {
   )
 }
 
-function BarChartComponent() {
+function ActivityChart({ sessions }) {
   return (
     <BarChart
       width={835}
       height={320}
-      data={data}
+      data={sessions}
       barGap={8}
       margin={{
         top: 5,
@@ -158,4 +121,12 @@ function BarChartComponent() {
   )
 }
 
-export default BarChartComponent
+ActivityChart.propTypes = {
+  sessions: PropTypes.array.isRequired,
+}
+
+ActivityChart.defaultProps = {
+  sessions: [],
+}
+
+export default ActivityChart
