@@ -10,7 +10,7 @@ Instructions to launch the backend are in the README.
 
 ## 2. Frontend installation
 
-After you clone this repository, you can run `npm start` to initialize your project and dependencies.
+After you clone this repository, you can run `npm install` to initialize your project and dependencies.
 
 #### Then in the project directory, you can run:
 
