@@ -4,6 +4,7 @@ import {
   PolarGrid,
   PolarAngleAxis,
   PolarRadiusAxis,
+  ResponsiveContainer,
 } from 'recharts'
 import { getUserPerformance } from '../../utils/api/api'
 import { useState, useEffect } from 'react'
@@ -36,33 +37,35 @@ function PerformanceChart() {
       {isLoading ? (
         'Loading...'
       ) : (
-        <RadarChart
-          width={258}
-          height={258}
-          cx="50%"
-          cy="50%"
-          outerRadius={80}
-          data={userPerformance.radarChartData}
-        >
-          <PolarGrid radialLines={false} stroke="#fff" />
-          <PolarAngleAxis
-            dataKey="activity"
-            fontSize={11}
-            fontWeight={500}
-            stroke="#fff"
-            tickLine={false}
-            dy={4}
-            dx={-3}
-          />
-          <PolarRadiusAxis
-            domain={[0, 'dataMax + 20']}
-            tick={false}
-            axisLine={false}
-            scale="auto"
-            tickCount={5}
-          />
-          <Radar dataKey="value" fill="#FF0101" fillOpacity={0.7} />
-        </RadarChart>
+        <ResponsiveContainer>
+          <RadarChart
+            width={258}
+            height={258}
+            cx="50%"
+            cy="50%"
+            outerRadius={70}
+            data={userPerformance.radarChartData}
+          >
+            <PolarGrid radialLines={false} stroke="#fff" />
+            <PolarAngleAxis
+              dataKey="activity"
+              fontSize={11}
+              fontWeight={500}
+              stroke="#fff"
+              tickLine={false}
+              dy={4}
+              dx={-3}
+            />
+            <PolarRadiusAxis
+              domain={[0, 'dataMax + 20']}
+              tick={false}
+              axisLine={false}
+              scale="auto"
+              tickCount={5}
+            />
+            <Radar dataKey="value" fill="#FF0101" fillOpacity={0.7} />
+          </RadarChart>
+        </ResponsiveContainer>
       )}
     </ChartContainer>
   )
@@ -71,11 +74,16 @@ function PerformanceChart() {
 /////*   Style   */////
 
 const ChartContainer = styled.div`
+  width: 258px;
+  height: 258px;
   background-color: #282d30;
   border-radius: 5px;
-  #radar g.recharts-polar-angle-axis {
-    transform: scaleY(1.08) scaleX(0.93);
-    transform-origin: center;
+  @media screen and (max-width: 1320px) {
+    width: max(210px, 18vw + 1em);
+    height: max(210px, 18vw + 1em);
+    .recharts-polar-angle-axis-tick-value {
+      font-size: 8px;
+    }
   }
 `
 

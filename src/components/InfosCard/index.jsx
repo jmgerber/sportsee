@@ -17,7 +17,8 @@ function InfosCard({ imgSrc, number, unit, category }) {
       <img src={imgSrc} alt={`${category} icon`} />
       <p>
         <span>
-          {number} {unit}
+          {number}
+          {unit}
         </span>
         <br />
         {category}
@@ -56,6 +57,26 @@ const Card = styled.div`
     color: #282d30;
     font-size: 20px;
     font-weight: 700;
+  }
+
+  @media screen and (max-width: 1320px) {
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+    & img {
+      width: max(52px, 4vw + 1em);
+      height: max(52px, 4vw + 1em);
+      margin: 0;
+    }
+
+    & p {
+      font-size: 11px;
+      text-align: center;
+    }
+
+    & span {
+      font-size: 12px;
+    }
   }
 `
 

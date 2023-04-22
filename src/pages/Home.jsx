@@ -106,11 +106,18 @@ const MainContainer = styled.div`
     & .userName {
       color: #ff0101;
     }
+    @media screen and (max-width: 1320px) {
+      margin: 30px 60px 0;
+      & h1 {
+        font-size: 42px;
+        margin-bottom: 24px;
+      }
+    }
   }
 
   & .container {
-    max-width: 1440px;
     display: flex;
+    width: 100%;
   }
 
   & .bottomCharts {
@@ -124,7 +131,7 @@ const CardSection = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-left: 32px;
+  margin-left: 6%;
 `
 
 export default Home
