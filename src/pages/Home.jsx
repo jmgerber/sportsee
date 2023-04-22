@@ -1,4 +1,9 @@
-import { useEffect, useState } from 'react'
+import CaloriesIcon from '../assets/calories-icon.png'
+import ProteinIcon from '../assets/protein-icon.png'
+import CarbsIcon from '../assets/carbs-icon.png'
+import FatIcon from '../assets/fat-icon.png'
+
+import { useState, useEffect } from 'react'
 import Header from '../components/Header'
 import VerticalNav from '../components/VerticalNav'
 import styled from 'styled-components'
@@ -7,17 +12,89 @@ import AverageSessionsChart from '../components/AverageSessionsChart'
 import PerformanceChart from '../components/PerformanceChart'
 import TodayScoreChart from '../components/TodayScoreChart'
 import InfosCard from '../components/InfosCard'
+import { getUserData } from '../utils/api/api'
 
-import fetchUserData from '../hooks/userData'
-import fetchUserActivities from '../hooks/userActivities'
-import fetchUserAverageSessions from '../hooks/userAverageSessions'
-import fetchUserPerformance from '../hooks/userPerformance'
+function Home() {
+  const [userData, setUserData] = useState({})
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    async function callUserData() {
+      try {
+        const userDataResponse = await getUserData()
+        setUserData(userDataResponse)
+        setIsLoading(false)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    callUserData()
+  }, [])
+
+  return (
+    <>
+      <Header />
+      <MainContainer>
+        <VerticalNav />
+        <main>
+          <h1>
+            Bonjour{' '}
+            <span className="userName">
+              {isLoading ? 'Loading...' : userData.firstName}
+            </span>
+          </h1>
+          <p>Félicitations ! Vous avec explosé vos objectifs hier 👏</p>
+          <div className="container">
+            <section className="charts">
+              <div className="topChart">
+                <ActivityChart />
+              </div>
+              <div className="bottomCharts">
+                <AverageSessionsChart />
+                <PerformanceChart />
+                <TodayScoreChart />
+              </div>
+            </section>
+            <CardSection>
+              <InfosCard
+                number={userData.calories}
+                unit="kCal"
+                category="Calories"
+                imgSrc={CaloriesIcon}
+              />
+              <InfosCard
+                number={userData.proteins}
+                unit="g"
+                category="Protéines"
+                imgSrc={ProteinIcon}
+              />
+              <InfosCard
+                number={userData.carbs}
+                unit="g"
+                category="Glucides"
+                imgSrc={CarbsIcon}
+              />
+              <InfosCard
+                number={userData.lipids}
+                unit="g"
+                category="Lipides"
+                imgSrc={FatIcon}
+              />
+            </CardSection>
+          </div>
+        </main>
+      </MainContainer>
+    </>
+  )
+}
+
+/////*   Style   */////
 
 const MainContainer = styled.div`
   display: flex;
   flex: 1;
   & main {
-    margin: 60px 100px 0;
+    margin: 40px 100px 0;
     & h1 {
       font-size: 48px;
       font-weight: 500;
@@ -32,6 +109,7 @@ const MainContainer = styled.div`
   }
 
   & .container {
+    max-width: 1440px;
     display: flex;
   }
 
@@ -42,74 +120,11 @@ const MainContainer = styled.div`
   }
 `
 
-function Home() {
-  const [userInfos, setUserInfos] = useState({})
-  const [userStats, setUserStats] = useState({})
-  const [userKeyData, setUserKeyData] = useState({})
-  const [userActivity, setUserActivity] = useState([])
-  const [userAverageSessions, setUserAverageSessions] = useState([])
-  const [userPerformance, setUserPerformance] = useState({})
-
-  const [isDataLoading, setDataLoading] = useState(false)
-  const [error, setError] = useState(false)
-
-  useEffect(() => {
-    setDataLoading(true)
-    try {
-      fetchUserData().then((data) => {
-        setUserStats(data)
-        setUserInfos(data.userInfos)
-        setUserKeyData(data.keyData)
-      })
-      fetchUserActivities().then((data) => setUserActivity(data.sessions))
-      fetchUserAverageSessions().then((data) =>
-        setUserAverageSessions(data.sessions)
-      )
-      fetchUserPerformance().then((data) => setUserPerformance(data))
-    } catch (err) {
-      console.log(err)
-      setError(true)
-    } finally {
-      setDataLoading(false)
-    }
-  }, [])
-
-  if (error) {
-    return <span>Oups, il y a eu un problème</span>
-  }
-
-  return (
-    <>
-      <Header />
-      <MainContainer>
-        <VerticalNav />
-
-        {isDataLoading ? (
-          <h1>Chargement</h1>
-        ) : (
-          <main>
-            <h1>
-              Bonjour <span className="userName">{userInfos.firstName}</span>
-            </h1>
-            <p>Félicitations ! Vous avec explosé vos objectifs hier 👏</p>
-            <div className="container">
-              <section className="charts">
-                <div className="topChart">
-                  <ActivityChart sessions={userActivity} />
-                </div>
-                <div className="bottomCharts">
-                  <AverageSessionsChart averageSessions={userAverageSessions} />
-                  <PerformanceChart userPerformance={userPerformance} />
-                  <TodayScoreChart stats={userStats} />
-                </div>
-              </section>
-              <InfosCard keyData={userKeyData} />
-            </div>
-          </main>
-        )}
-      </MainContainer>
-    </>
-  )
-}
+const CardSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 32px;
+`
 
 export default Home

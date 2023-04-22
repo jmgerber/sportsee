@@ -1,6 +1,29 @@
 import logo from '../../assets/logo.png'
 import styled from 'styled-components'
 
+/**
+ * @function Header React component for the header
+ *
+ * @returns {JSX} Header with navigation buttons
+ */
+function Header() {
+  return (
+    <StyledHeader>
+      <nav>
+        <a href="/">
+          <img className="mainLogo" src={logo} alt="Logo SportSee" />
+        </a>
+        <a href="/">Accueil</a>
+        <a href="/">Profil</a>
+        <a href="/">Réglages</a>
+        <a href="/">Communauté</a>
+      </nav>
+    </StyledHeader>
+  )
+}
+
+/////*   Style   */////
+
 const StyledHeader = styled.header`
   background-color: #020203;
   height: 91px;
@@ -19,21 +42,5 @@ const StyledHeader = styled.header`
     }
   }
 `
-
-function Header() {
-  return (
-    <StyledHeader>
-      <nav>
-        <a href="/">
-          <img className="mainLogo" src={logo} alt="Logo SportSee" />
-        </a>
-        <a href="/">Accueil</a>
-        <a href="/">Profil</a>
-        <a href="/">Réglages</a>
-        <a href="/">Communauté</a>
-      </nav>
-    </StyledHeader>
-  )
-}
 
 export default Header
