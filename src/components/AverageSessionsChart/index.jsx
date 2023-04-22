@@ -37,55 +37,53 @@ function AverageSessionsChart() {
       {isLoading ? (
         'Loading...'
       ) : (
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart
-            width={258}
-            height={263}
-            data={userAverageSessions.lineChartData}
-          >
-            <text x={30} y={30} fill="rgba(255,255,255,0.5)">
-              <tspan fontSize="15" fontWeight={500}>
-                Durée moyenne des sessions
-              </tspan>
-            </text>
-            <XAxis
-              dataKey="day"
-              strokeWidth={0}
-              stroke="rgba(255,255,255,0.5)"
-              padding={{ left: 20, right: 20 }}
-            />
-            <YAxis domain={['dataMin - 20', 'dataMax + 20']} hide={true} />
-            <Tooltip
-              cursor={false}
-              wrapperStyle={{ outline: 'none' }}
-              contentStyle={{
-                backgroundColor: '#fff',
-                border: 'none',
-              }}
-              itemStyle={{
-                color: '#000',
-                textAlign: 'center',
-                fontSize: '9px',
-                fontWeight: '500',
-              }}
-              labelFormatter={() => ''}
-              formatter={(value) => [`${value} min`, undefined]}
-            />
-            <Line
-              type="natural"
-              dataKey="length"
-              stroke="#fff"
-              strokeWidth={2}
-              dot={false}
-              activeDot={{
-                stroke: 'rgba(255, 255, 255, 0.3)',
-                fill: '#fff',
-                strokeWidth: 5,
-                r: 4,
-              }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+        <LineChart
+          width={258}
+          height={263}
+          data={userAverageSessions.lineChartData}
+        >
+          <text x={30} y={30} fill="rgba(255,255,255,0.5)">
+            <tspan fontSize="15" fontWeight={500}>
+              Durée moyenne des sessions
+            </tspan>
+          </text>
+          <XAxis
+            dataKey="day"
+            strokeWidth={0}
+            stroke="rgba(255,255,255,0.5)"
+            padding={{ left: 20, right: 20 }}
+          />
+          <YAxis domain={['dataMin - 20', 'dataMax + 20']} hide={true} />
+          <Tooltip
+            cursor={false}
+            wrapperStyle={{ outline: 'none' }}
+            contentStyle={{
+              backgroundColor: '#fff',
+              border: 'none',
+            }}
+            itemStyle={{
+              color: '#000',
+              textAlign: 'center',
+              fontSize: '9px',
+              fontWeight: '500',
+            }}
+            labelFormatter={() => ''}
+            formatter={(value) => [`${value} min`, undefined]}
+          />
+          <Line
+            type="natural"
+            dataKey="length"
+            stroke="#fff"
+            strokeWidth={2}
+            dot={false}
+            activeDot={{
+              stroke: 'rgba(255, 255, 255, 0.3)',
+              fill: '#fff',
+              strokeWidth: 5,
+              r: 4,
+            }}
+          />
+        </LineChart>
       )}
     </ChartContainer>
   )
