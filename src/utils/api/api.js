@@ -7,13 +7,13 @@ const isDataMocked = process.env.REACT_APP_MOCKED_DATA === 'true'
 
 /**
  * @function getUserActivity Request user activity data from API or mocked data
- *
+ * @param {string} id User ID
  * @returns {object} Formatted user activity data
  */
-export async function getUserActivity() {
+export async function getUserActivity(id) {
   const url = isDataMocked
-    ? `${process.env.REACT_APP_BASE_URL}/mocked-data/user/12/activity/activity.json`
-    : `${process.env.REACT_APP_BASE_URL}/user/18/activity`
+    ? `${process.env.REACT_APP_BASE_URL}/mocked-data/user/${id}/activity/activity.json`
+    : `${process.env.REACT_APP_BASE_URL}/user/${id}/activity`
   try {
     const res = await fetch(url)
     const data = await res.json()
@@ -26,13 +26,13 @@ export async function getUserActivity() {
 
 /**
  * @function getUserData Request user data from API or mocked data
- *
+ * @param {string} id User ID
  * @returns {object} Formatted user data
  */
-export async function getUserData() {
+export async function getUserData(id) {
   const url = isDataMocked
-    ? `${process.env.REACT_APP_BASE_URL}/mocked-data/user/12/user.json`
-    : `${process.env.REACT_APP_BASE_URL}/user/18/`
+    ? `${process.env.REACT_APP_BASE_URL}/mocked-data/user/${id}/user.json`
+    : `${process.env.REACT_APP_BASE_URL}/user/${id}`
   try {
     const res = await fetch(url)
     const data = await res.json()
@@ -45,13 +45,13 @@ export async function getUserData() {
 
 /**
  * @function getUserAverageSessions Request user average sessions data from API or mocked data
- *
+ * @param {string} id User ID
  * @returns {object} Formatted user average sessions data
  */
-export async function getUserAverageSessions() {
+export async function getUserAverageSessions(id) {
   const url = isDataMocked
-    ? `${process.env.REACT_APP_BASE_URL}/mocked-data/user/12/average-sessions/average-sessions.json`
-    : `${process.env.REACT_APP_BASE_URL}/user/18/average-sessions`
+    ? `${process.env.REACT_APP_BASE_URL}/mocked-data/user/${id}/average-sessions/average-sessions.json`
+    : `${process.env.REACT_APP_BASE_URL}/user/${id}/average-sessions`
   try {
     const res = await fetch(url)
     const data = await res.json()
@@ -64,13 +64,13 @@ export async function getUserAverageSessions() {
 
 /**
  * @function getUserPerformance Request user performance data from API or mocked data
- *
+ * @param {string} id User ID
  * @returns {object} Formatted user performance data
  */
-export async function getUserPerformance() {
+export async function getUserPerformance(id) {
   const url = isDataMocked
-    ? `${process.env.REACT_APP_BASE_URL}/mocked-data/user/12/performance/performance.json`
-    : `${process.env.REACT_APP_BASE_URL}/user/18/performance`
+    ? `${process.env.REACT_APP_BASE_URL}/mocked-data/user/${id}/performance/performance.json`
+    : `${process.env.REACT_APP_BASE_URL}/user/${id}/performance`
   try {
     const res = await fetch(url)
     const data = await res.json()
