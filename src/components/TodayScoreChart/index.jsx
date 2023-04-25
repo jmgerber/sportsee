@@ -6,6 +6,7 @@ import {
 } from 'recharts'
 import { useState, useEffect } from 'react'
 import { getUserData } from '../../utils/api/api'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 /**
@@ -14,13 +15,14 @@ import styled from 'styled-components'
  * @returns {JSX} Percentage of daily score as a radial chart
  */
 function TodayScoreChart() {
+  const { userId } = useParams()
   const [userData, setUserData] = useState({})
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     async function callUserData() {
       try {
-        const userDataResponse = await getUserData()
+        const userDataResponse = await getUserData(userId)
         setUserData(userDataResponse)
         setIsLoading(false)
       } catch (error) {
@@ -28,40 +30,46 @@ function TodayScoreChart() {
       }
     }
     callUserData()
-  }, [])
+  }, [userId])
 
-  return isLoading ? (
-    'Loading...'
-  ) : (
-    <ChartContainer>
-      <ChartTitle>Score</ChartTitle>
-      <p className="goalPercentage">
-        <span>{userData.scoreDisplay}%</span>
-        <br />
-        de votre objectif
-      </p>
-      <ResponsiveContainer>
-        <RadialBarChart
-          width={258}
-          height={258}
-          cx="50%"
-          cy="50%"
-          innerRadius="66%"
-          barSize={10}
-          data={[userData.radialBarChartData]}
-          startAngle={90}
-          endAngle={450}
-        >
-          <RadialBar
-            dataKey="score"
-            clockWise={true}
-            fill="#FF0000"
-            cornerRadius={5}
-          />
-          <PolarAngleAxis type="number" domain={[0, 100]} tick={false} />
-        </RadialBarChart>
-      </ResponsiveContainer>
-    </ChartContainer>
+  return (
+    userData && (
+      <ChartContainer>
+        {isLoading ? (
+          'Loading...'
+        ) : (
+          <div>
+            <ChartTitle>Score</ChartTitle>
+            <p className="goalPercentage">
+              <span>{userData.scoreDisplay}%</span>
+              <br />
+              de votre objectif
+            </p>
+            <ResponsiveContainer>
+              <RadialBarChart
+                width={258}
+                height={258}
+                cx="50%"
+                cy="50%"
+                innerRadius="66%"
+                barSize={10}
+                data={[userData.radialBarChartData]}
+                startAngle={90}
+                endAngle={450}
+              >
+                <RadialBar
+                  dataKey="score"
+                  clockWise={true}
+                  fill="#FF0000"
+                  cornerRadius={5}
+                />
+                <PolarAngleAxis type="number" domain={[0, 100]} tick={false} />
+              </RadialBarChart>
+            </ResponsiveContainer>
+          </div>
+        )}
+      </ChartContainer>
+    )
   )
 }
 

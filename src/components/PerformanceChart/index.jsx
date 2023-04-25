@@ -8,6 +8,7 @@ import {
 } from 'recharts'
 import { getUserPerformance } from '../../utils/api/api'
 import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 /**
@@ -16,13 +17,14 @@ import styled from 'styled-components'
  * @returns {JSX} Type of activity carried out in the form of a radar chart.
  */
 function PerformanceChart() {
+  const { userId } = useParams()
   const [userPerformance, setUserPerformance] = useState({})
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     async function callUserData() {
       try {
-        const userPerformanceResponse = await getUserPerformance()
+        const userPerformanceResponse = await getUserPerformance(userId)
         setUserPerformance(userPerformanceResponse)
         setIsLoading(false)
       } catch (error) {
@@ -30,44 +32,46 @@ function PerformanceChart() {
       }
     }
     callUserData()
-  }, [])
+  }, [userId])
 
   return (
-    <ChartContainer>
-      {isLoading ? (
-        'Loading...'
-      ) : (
-        <ResponsiveContainer>
-          <RadarChart
-            width={258}
-            height={258}
-            cx="50%"
-            cy="50%"
-            outerRadius={70}
-            data={userPerformance.radarChartData}
-          >
-            <PolarGrid radialLines={false} stroke="#fff" />
-            <PolarAngleAxis
-              dataKey="activity"
-              fontSize={11}
-              fontWeight={500}
-              stroke="#fff"
-              tickLine={false}
-              dy={4}
-              dx={-3}
-            />
-            <PolarRadiusAxis
-              domain={[0, 'dataMax + 20']}
-              tick={false}
-              axisLine={false}
-              scale="auto"
-              tickCount={5}
-            />
-            <Radar dataKey="value" fill="#FF0101" fillOpacity={0.7} />
-          </RadarChart>
-        </ResponsiveContainer>
-      )}
-    </ChartContainer>
+    userPerformance && (
+      <ChartContainer>
+        {isLoading ? (
+          'Loading...'
+        ) : (
+          <ResponsiveContainer>
+            <RadarChart
+              width={258}
+              height={258}
+              cx="50%"
+              cy="50%"
+              outerRadius={70}
+              data={userPerformance.radarChartData}
+            >
+              <PolarGrid radialLines={false} stroke="#fff" />
+              <PolarAngleAxis
+                dataKey="activity"
+                fontSize={11}
+                fontWeight={500}
+                stroke="#fff"
+                tickLine={false}
+                dy={4}
+                dx={-3}
+              />
+              <PolarRadiusAxis
+                domain={[0, 'dataMax + 20']}
+                tick={false}
+                axisLine={false}
+                scale="auto"
+                tickCount={5}
+              />
+              <Radar dataKey="value" fill="#FF0101" fillOpacity={0.7} />
+            </RadarChart>
+          </ResponsiveContainer>
+        )}
+      </ChartContainer>
+    )
   )
 }
 

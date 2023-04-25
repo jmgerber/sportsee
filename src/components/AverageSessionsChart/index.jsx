@@ -8,6 +8,7 @@ import {
 } from 'recharts'
 import { useState, useEffect } from 'react'
 import { getUserAverageSessions } from '../../utils/api/api'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 /**
@@ -16,13 +17,16 @@ import styled from 'styled-components'
  * @returns {JSX} Statistics about sessions duration for the 7 last days in a line chart
  */
 function AverageSessionsChart() {
+  const { userId } = useParams()
   const [userAverageSessions, setUserAverageSessions] = useState({})
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     async function callUserData() {
       try {
-        const userAverageSessionsDataResponse = await getUserAverageSessions()
+        const userAverageSessionsDataResponse = await getUserAverageSessions(
+          userId
+        )
         setUserAverageSessions(userAverageSessionsDataResponse)
         setIsLoading(false)
       } catch (error) {
@@ -30,60 +34,62 @@ function AverageSessionsChart() {
       }
     }
     callUserData()
-  }, [])
+  }, [userId])
 
   return (
-    <ChartContainer>
-      <ChartTitle>Durée moyenne des sessions</ChartTitle>
-      {isLoading ? (
-        'Loading...'
-      ) : (
-        <ResponsiveContainer>
-          <LineChart
-            width={258}
-            height={258}
-            data={userAverageSessions.lineChartData}
-          >
-            <XAxis
-              dataKey="day"
-              strokeWidth={0}
-              stroke="rgba(255,255,255,0.5)"
-              padding={{ left: 20, right: 20 }}
-            />
-            <YAxis domain={['dataMin - 20', 'dataMax + 20']} hide={true} />
-            <Tooltip
-              cursor={false}
-              wrapperStyle={{ outline: 'none' }}
-              contentStyle={{
-                backgroundColor: '#fff',
-                border: 'none',
-              }}
-              itemStyle={{
-                color: '#000',
-                textAlign: 'center',
-                fontSize: '9px',
-                fontWeight: '500',
-              }}
-              labelFormatter={() => ''}
-              formatter={(value) => [`${value} min`, undefined]}
-            />
-            <Line
-              type="natural"
-              dataKey="length"
-              stroke="#fff"
-              strokeWidth={2}
-              dot={false}
-              activeDot={{
-                stroke: 'rgba(255, 255, 255, 0.3)',
-                fill: '#fff',
-                strokeWidth: 5,
-                r: 4,
-              }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      )}
-    </ChartContainer>
+    userAverageSessions && (
+      <ChartContainer>
+        <ChartTitle>Durée moyenne des sessions</ChartTitle>
+        {isLoading ? (
+          'Loading...'
+        ) : (
+          <ResponsiveContainer>
+            <LineChart
+              width={258}
+              height={258}
+              data={userAverageSessions.lineChartData}
+            >
+              <XAxis
+                dataKey="day"
+                strokeWidth={0}
+                stroke="rgba(255,255,255,0.5)"
+                padding={{ left: 20, right: 20 }}
+              />
+              <YAxis domain={['dataMin - 20', 'dataMax + 20']} hide={true} />
+              <Tooltip
+                cursor={false}
+                wrapperStyle={{ outline: 'none' }}
+                contentStyle={{
+                  backgroundColor: '#fff',
+                  border: 'none',
+                }}
+                itemStyle={{
+                  color: '#000',
+                  textAlign: 'center',
+                  fontSize: '9px',
+                  fontWeight: '500',
+                }}
+                labelFormatter={() => ''}
+                formatter={(value) => [`${value} min`, undefined]}
+              />
+              <Line
+                type="natural"
+                dataKey="length"
+                stroke="#fff"
+                strokeWidth={2}
+                dot={false}
+                activeDot={{
+                  stroke: 'rgba(255, 255, 255, 0.3)',
+                  fill: '#fff',
+                  strokeWidth: 5,
+                  r: 4,
+                }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        )}
+      </ChartContainer>
+    )
   )
 }
 
