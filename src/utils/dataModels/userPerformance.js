@@ -16,7 +16,15 @@ export default class PerformanceData {
   }
 
   get kindsTable() {
-    return this._kinds
+    const translatedKind = {
+      1: 'cardio',
+      2: 'energie',
+      3: 'endurance',
+      4: 'force',
+      5: 'vitesse',
+      6: 'intensité',
+    }
+    return translatedKind
   }
 
   get radarChartData() {
@@ -32,3 +40,12 @@ export default class PerformanceData {
     })
   }
 }
+
+// "kind": {
+//   "1": "cardio",
+//   "2": "energy",
+//   "3": "endurance",
+//   "4": "strength",
+//   "5": "speed",
+//   "6": "intensity"
+// }
