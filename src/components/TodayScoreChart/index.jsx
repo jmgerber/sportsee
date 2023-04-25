@@ -38,7 +38,7 @@ function TodayScoreChart() {
         {isLoading ? (
           'Loading...'
         ) : (
-          <div>
+          <ChartWrapper>
             <ChartTitle>Score</ChartTitle>
             <p className="goalPercentage">
               <span>{userData.scoreDisplay}%</span>
@@ -66,7 +66,7 @@ function TodayScoreChart() {
                 <PolarAngleAxis type="number" domain={[0, 100]} tick={false} />
               </RadialBarChart>
             </ResponsiveContainer>
-          </div>
+          </ChartWrapper>
         )}
       </ChartContainer>
     )
@@ -107,6 +107,11 @@ const ChartContainer = styled.div`
       }
     }
   }
+`
+
+const ChartWrapper = styled.div`
+  width: 100%;
+  height: 100%;
 `
 const ChartTitle = styled.div`
   color: #20253a;
